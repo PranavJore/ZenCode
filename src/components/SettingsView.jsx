@@ -1,8 +1,9 @@
 import {useEffect,useState} from "react";
+import {Moon,Sun} from "lucide-react";
 import {saveSetting} from "../utils/settings";
 
 
-function SettingsView(){
+function SettingsView({uiTheme,onUiThemeChange}){
 
 
 const [settings,setSettings]=useState({
@@ -101,6 +102,28 @@ Settings
 
 <SettingRow
 
+title="Interface Theme"
+
+desc="Switch between dark and light mode"
+
+>
+
+<ThemeSwitcher
+
+value={uiTheme}
+
+onChange={onUiThemeChange}
+
+/>
+
+</SettingRow>
+
+
+
+
+
+<SettingRow
+
 title="Celebration Mode"
 
 desc="Show GTA-style banner on submission"
@@ -160,7 +183,7 @@ update(
 
 
 
-<Section title="Theme">
+<Section title="Celebration Theme">
 
 
 <div className="space-y-1">
@@ -503,6 +526,120 @@ enabled
 
 
 </button>
+
+)
+
+}
+
+
+
+
+
+function ThemeSwitcher({value,onChange}){
+
+
+const options=[
+
+{value:"dark",label:"Dark",Icon:Moon},
+
+{value:"light",label:"Light",Icon:Sun}
+
+];
+
+
+return(
+
+<div
+
+role="group"
+
+aria-label="Interface theme"
+
+className="
+flex
+shrink-0
+
+rounded-full
+
+border
+border-gray-700
+
+bg-gray-900
+
+p-1
+"
+>
+
+{options.map(({value:option,label,Icon})=>{
+
+
+const active=value===option;
+
+
+return(
+
+<button
+
+key={option}
+
+type="button"
+
+aria-pressed={active}
+
+title={`${label} mode`}
+
+onClick={()=>onChange(option)}
+
+className={`
+flex
+items-center
+gap-1
+
+rounded-full
+
+px-2.5
+py-1
+
+text-xs
+font-semibold
+
+transition-all
+duration-300
+ease-out
+
+focus:outline-none
+focus-visible:ring-2
+focus-visible:ring-green-500/40
+
+${
+
+active
+
+?
+
+"bg-gradient-to-r from-green-500 to-emerald-600 text-white glow-toggle"
+
+:
+
+"text-gray-400 hover:text-gray-200"
+
+}
+`}
+
+>
+
+<Icon size={13} strokeWidth={2.5} aria-hidden="true"/>
+
+{label}
+
+</button>
+
+);
+
+
+})}
+
+</div>
 
 )
 

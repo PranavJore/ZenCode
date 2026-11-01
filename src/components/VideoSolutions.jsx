@@ -165,7 +165,7 @@ function VideoSolutions() {
           <button
             type="button"
             onClick={() => setSelectedVideo(null)}
-            className="block text-xs text-gray-400 hover:text-white"
+            className="block text-xs text-gray-400 hover:text-gray-50"
           >
             ← Back to videos
           </button>
@@ -211,7 +211,7 @@ function VideoSolutions() {
                   href={video.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-xs text-gray-400 hover:text-white"
+                  className="text-xs text-gray-400 hover:text-gray-50"
                 >
                   Open on YouTube ↗
                 </a>

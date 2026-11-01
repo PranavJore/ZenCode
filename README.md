@@ -14,6 +14,7 @@ It provides:
 - 🤖 Gemini-powered Time & Space Complexity analysis
 - 💾 Per-problem complexity caching
 - ⚡ Network-based LeetCode submission detection
+- 🌗 Dark/Light interface theme
 
 The project uses a React/Vite Chrome extension frontend and a Node.js/Express backend for Gemini analysis.
 
@@ -46,6 +47,14 @@ The celebration supports:
 - Sound ON/OFF
 - Celebration ON/OFF
 - Theme selection
+
+### 🌗 Dark/Light Interface Theme
+
+Switch the extension panel between dark and light mode from **Settings → Appearance → Interface Theme**.
+
+- Applies instantly across every view
+- Saved to `chrome.storage.local` (`uiTheme`) and restored when the extension reopens
+- Independent of the GTA/Minecraft celebration theme
 
 ### 📊 Submission Analytics
 

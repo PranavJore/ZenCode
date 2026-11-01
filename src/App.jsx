@@ -8,24 +8,57 @@ import ReportView from "./components/ReportView";
 import VideoSolutions from "./components/VideoSolutions";
 
 import { startTracking } from "./utils/tracker";
+import {
+  DEFAULT_UI_THEME,
+  saveUiTheme,
+  onUiThemeChange,
+} from "./utils/settings";
 
-function App() {
+function App({ initialUiTheme = DEFAULT_UI_THEME }) {
   const [open, setOpen] = useState(false);
   const [activeTab, setActiveTab] = useState("report");
+  const [uiTheme, setUiTheme] = useState(initialUiTheme);
 
   useEffect(() => {
     startTracking();
   }, []);
 
-  // Display the floating button when the panel is closed.
-  if (!open) {
-    return (
-      <FloatingButton
-        onClick={() => setOpen(true)}
-      />
-    );
+  // Follow theme changes made in other LeetCode tabs.
+  useEffect(() => onUiThemeChange(setUiTheme), []);
+
+  function changeUiTheme(nextTheme) {
+    setUiTheme(nextTheme);
+    saveUiTheme(nextTheme);
   }
 
+  return (
+    // Light-mode palette overrides in index.css are scoped to this attribute.
+    <div data-ui-theme={uiTheme}>
+      {open ? (
+        <Panel
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
+          onClose={() => setOpen(false)}
+          uiTheme={uiTheme}
+          onUiThemeChange={changeUiTheme}
+        />
+      ) : (
+        // Display the floating button when the panel is closed.
+        <FloatingButton
+          onClick={() => setOpen(true)}
+        />
+      )}
+    </div>
+  );
+}
+
+function Panel({
+  activeTab,
+  setActiveTab,
+  onClose,
+  uiTheme,
+  onUiThemeChange,
+}) {
   return (
     <div
       className="
@@ -43,11 +76,12 @@ function App() {
         flex flex-col
         overflow-hidden
         font-sans
+        text-gray-200
       "
     >
       {/* Header and Navigation */}
       <Header
-        onClose={() => setOpen(false)}
+        onClose={onClose}
         activeTab={activeTab}
         onReport={() => setActiveTab("report")}
         onVideos={() => setActiveTab("videos")}
@@ -80,7 +114,10 @@ function App() {
         )}
 
         {activeTab === "settings" && (
-          <SettingsView />
+          <SettingsView
+            uiTheme={uiTheme}
+            onUiThemeChange={onUiThemeChange}
+          />
         )}
       </div>
 
