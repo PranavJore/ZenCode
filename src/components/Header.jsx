@@ -86,7 +86,7 @@ function Header({
             ${
               activeTab === "report"
                 ? "bg-green-500 text-white border-white shadow-[0_0_10px_rgba(34,197,94,0.7),0_0_20px_rgba(34,197,94,0.4)]"
-                : "bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600 hover:text-white"
+                : "bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600 hover:text-gray-50"
             }
           `}
         >
@@ -115,7 +115,7 @@ function Header({
             ${
               activeTab === "videos"
                 ? "bg-green-500 text-white border-white shadow-[0_0_10px_rgba(34,197,94,0.7),0_0_20px_rgba(34,197,94,0.4)]"
-                : "bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600 hover:text-white"
+                : "bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600 hover:text-gray-50"
             }
           `}
         >
@@ -144,7 +144,7 @@ function Header({
             ${
               activeTab === "settings"
                 ? "bg-green-500 text-white border-white shadow-[0_0_10px_rgba(34,197,94,0.7),0_0_20px_rgba(34,197,94,0.4)]"
-                : "bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600 hover:text-white"
+                : "bg-gray-700 text-gray-300 border-gray-600 hover:bg-gray-600 hover:text-gray-50"
             }
           `}
         >
@@ -162,10 +162,10 @@ function Header({
             rounded-xl
             bg-gray-700
             text-gray-400
-            border border-white/20
+            border border-gray-50/20
             hover:bg-gray-600
-            hover:text-white
-            hover:border-white/40
+            hover:text-gray-50
+            hover:border-gray-50/40
             transition
             cursor-pointer
           "

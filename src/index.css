@@ -31,3 +31,55 @@ button {
   50%  { box-shadow: 0 0 5px rgba(34,197,94,0.55), 0 0 10px rgba(34,197,94,0.25); }
   100% { box-shadow: 0 0 3px rgba(34,197,94,0.4), 0 0 6px rgba(34,197,94,0.2); }
 }
+
+/* ==========================================
+   INTERFACE THEME (DARK / LIGHT)
+   ==========================================
+   Dark is the original design and needs no overrides.
+   Light mode remaps Tailwind's gray scale (which every
+   view already uses for surfaces, borders and text) to
+   its light counterpart, so all views switch together
+   without per-component styles. Values come from
+   Tailwind's default palette. */
+
+[data-ui-theme="light"] {
+  --color-gray-50: oklch(13% 0.028 261.692);
+  --color-gray-100: oklch(21% 0.034 264.665);
+  --color-gray-200: oklch(27.8% 0.033 256.848);
+  --color-gray-300: oklch(37.3% 0.034 259.733);
+  --color-gray-400: oklch(44.6% 0.03 256.802);
+  --color-gray-500: oklch(55.1% 0.027 264.364);
+  --color-gray-600: oklch(80% 0.016 259.5);
+  --color-gray-700: oklch(92.8% 0.006 264.531);
+  --color-gray-800: oklch(96.7% 0.003 264.542);
+  --color-gray-900: oklch(100% 0 0);
+
+  /* Tinted "saved automatically" note */
+  --color-green-900: oklch(87.1% 0.15 154.449);
+  --color-green-950: oklch(96.2% 0.044 156.743);
+}
+
+/* Accent text is tuned for dark surfaces; use darker
+   shades on light surfaces to keep contrast readable. */
+
+[data-ui-theme="light"] .text-green-400 {
+  color: oklch(52.7% 0.154 150.069);
+}
+
+[data-ui-theme="light"] .hover\:text-green-300:hover {
+  color: oklch(44.8% 0.119 151.328);
+}
+
+[data-ui-theme="light"] .text-yellow-300,
+[data-ui-theme="light"] .text-yellow-400 {
+  color: oklch(55.4% 0.135 66.442);
+}
+
+[data-ui-theme="light"] .text-blue-400 {
+  color: oklch(48.8% 0.243 264.376);
+}
+
+/* Softer elevation on light surfaces. */
+[data-ui-theme="light"] .shadow-\[0_20px_60px_rgba\(0\,0\,0\,0\.6\)\] {
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.22);
+}
