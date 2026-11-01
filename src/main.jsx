@@ -2,6 +2,7 @@ import React from "react";
 import {createRoot} from "react-dom/client";
 import App from "./App.jsx";
 import css from "./index.css?inline";
+import {getUiTheme} from "./utils/settings";
 
 
 console.log("🔥 LeetBoost React Started");
@@ -60,12 +61,18 @@ const root=document.createElement("div");
 shadow.appendChild(root);
 
 
+// Read the saved interface theme before the first render
+// so the UI never flashes the wrong theme.
+getUiTheme((uiTheme)=>{
+
 createRoot(root).render(
 
 <React.StrictMode>
 
-<App/>
+<App initialUiTheme={uiTheme}/>
 
 </React.StrictMode>
 
 );
+
+});
