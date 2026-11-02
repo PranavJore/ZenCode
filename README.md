@@ -1,138 +1,211 @@
 # ⚡ ZenCode
 
-> A Chrome extension that enhances LeetCode with themed submission celebrations, submission analytics, and AI-powered Time & Space Complexity analysis.
+A Chrome extension that enhances LeetCode with themed submission celebrations, coding activity analytics, AI-powered Time and Space Complexity analysis, and contextual YouTube video solutions.
 
 ## 🚀 Overview
 
-**ZenCode** is a Manifest V3 Chrome extension built with React and Vite.
+**ZenCode** is a Chrome extension built using React, Vite, and Chrome Extension Manifest V3. It enhances the LeetCode coding experience by making problem-solving more interactive and informative.
 
-It provides:
-
-- 🎮 GTA San Andreas and Minecraft celebration themes
-- 🔊 Passed/failed submission sounds
-- 📊 Submission analytics
-- 🤖 Gemini-powered Time & Space Complexity analysis
-- 💾 Per-problem complexity caching
-- ⚡ Network-based LeetCode submission detection
-
-The project uses a React/Vite Chrome extension frontend and a Node.js/Express backend for Gemini analysis.
+ZenCode provides themed animations and sounds for accepted and failed submissions, tracks coding activity, analyzes code complexity using Google's Gemini API, and recommends relevant YouTube video solutions for LeetCode problems.
 
 ## ✨ Features
 
-### 🎮 Submission Celebrations
+### 🎮 1. Submission Celebrations
 
-ZenCode detects LeetCode submission results and displays a themed celebration.
+ZenCode detects LeetCode submission results and displays themed animations and sound effects.
 
-Supported themes:
-
+**Supported themes:**
 - GTA San Andreas
 - Minecraft
 
-Each theme contains:
+**Features include:**
+- Animated success and failure popups.
+- Sound effects for accepted and failed submissions.
+- Customizable celebration settings.
+- Enable or disable celebrations.
+- Enable or disable sounds.
+- Theme selection.
+- Animation and attempt information.
 
-```text
-passed.png
-passed.mp3
-failed.png
-failed.mp3
+### 📊 2. Coding Activity Analytics
+
+ZenCode tracks coding activity to help users understand their LeetCode practice habits.
+
+**Tracked activities include:**
+- Problems attempted.
+- Accepted submissions.
+- Failed submissions.
+- Attempts per problem.
+- Total solving time.
+- Current solving streak.
+- Paste events and bulk paste events.
+- Tab switches.
+
+These analytics help users review their activity and identify areas for improvement.
+
+### 🤖 3. AI-Powered Complexity Analysis
+
+ZenCode integrates Google's Gemini API to analyze submitted LeetCode solutions and estimate their time and space complexity.
+
+**The analyzer provides:**
+- Time complexity.
+- Space complexity.
+- Complexity information based on the submitted code.
+
+Example output:
+
+```json
+{
+  "timeComplexity": "O(N)",
+  "spaceComplexity": "O(N)"
+}
 ```
 
-The celebration supports:
-
-- Passed/failed images
-- Sound effects
-- Attempt information
-- Animated popups
-- Sound ON/OFF
-- Celebration ON/OFF
-- Theme selection
-
-### 📊 Submission Analytics
-
-ZenCode tracks:
-
-- Problems attempted
-- Accepted submissions
-- Failed submissions
-- Attempts for a problem
-- Total solving time
-- Current streak
-- Paste events
-- Bulk paste events
-- Tab switches
-
-### 🤖 AI Complexity Analyzer
-
-ZenCode uses the Gemini API to analyze submitted LeetCode code.
-
-It returns:
-
-```text
-🤖 Time Complexity: O(N)
-💾 Space Complexity: O(N)
-```
-
-The backend keeps the Gemini API key private through an environment variable.
-
-**Analysis flow:**
+**Analysis workflow:**
 
 ```text
 Chrome Extension
-       ↓
+       |
+       v
 ZenCode Backend
-       ↓
-Gemini API
-       ↓
-Time + Space Complexity
-       ↓
-Chrome Extension
+       |
+       v
+Google Gemini API
+       |
+       v
+Complexity Analysis
+       |
+       v
+Display Results
 ```
 
-### 💾 Complexity Caching
+The backend handles communication with Gemini, keeping the API key outside the frontend extension code.
 
-A successful complexity analysis is saved per LeetCode problem slug using:
+### 🎥 4. YouTube Video Solutions
+
+ZenCode provides relevant YouTube video recommendations for LeetCode problems, helping users understand problem-solving approaches and explore alternative solutions.
+
+**Features include:**
+- Fetching relevant YouTube videos for a LeetCode problem.
+- Displaying up to three video recommendations.
+- Watching recommended videos within the extension.
+- Caching video results locally to reduce repeated requests.
+
+The backend uses the YouTube Data API to retrieve relevant videos based on the problem name or problem slug.
+
+**Video recommendation workflow:**
 
 ```text
-chrome.storage.local
+User Opens a LeetCode Problem
+              |
+              v
+       ZenCode Extension
+              |
+              v
+       ZenCode Backend
+              |
+              v
+       YouTube Data API
+              |
+              v
+    Relevant Video Results
+              |
+              v
+ Display Videos in Extension
 ```
+
+**Configuration requirement:** The backend must have a valid `YOUTUBE_API_KEY` environment variable configured for video recommendations to work.
+
+### 💾 5. Complexity Result Caching
+
+ZenCode stores successful complexity analysis results locally using `chrome.storage.local`.
+
+Each result is associated with its LeetCode problem slug.
 
 For example:
 
 ```text
 two-sum
+longest-substring-without-repeating-characters
+valid-parentheses
 ```
 
-**First successful analysis:**
+When a previously analyzed problem is opened again, ZenCode can reuse the cached result instead of requesting another analysis.
+
+**Benefits:**
+- Reduces repeated Gemini API requests.
+- Improves response time for previously analyzed problems.
+- Avoids unnecessary API usage.
+
+Failed analysis requests are not cached, allowing users to retry the analysis later.
+
+### 🔍 6. Submission Detection
+
+ZenCode detects LeetCode submissions by intercepting submission requests and retrieving relevant submission information.
+
+The extension identifies the submission result and distinguishes between accepted and failed submissions.
+
+The detection workflow also retrieves submitted code for supported functionality, including complexity analysis.
+
+**Submission workflow:**
 
 ```text
-LeetCode
-   ↓
-Backend
-   ↓
-Gemini
-   ↓
-Save result
+User Submits a Solution
+          |
+          v
+LeetCode Submission Request
+          |
+          v
+ZenCode Detects Submission
+          |
+          v
+Retrieve Submission Details
+          |
+          v
+Identify Submission Result
+          |
+          v
++---------------------------+
+|                           |
+v                           v
+Submission             Complexity
+Celebration              Analysis
 ```
 
-**Later submissions of the same problem:**
+### ⚙️ 7. Customization Settings
 
-```text
-LeetCode
-   ↓
-Saved complexity result
-```
+ZenCode provides settings to personalize the coding experience.
 
-No new backend/Gemini analysis is needed after a successful result has been cached.
+Users can configure:
+- Submission celebrations.
+- Sound effects.
+- Preferred celebration theme.
 
-If an analysis request fails, no result is cached, allowing a later retry.
+These settings allow users to customize the extension according to their preferences.
 
-## 🧠 Submission Detection
+## 🛠️ Tech Stack
 
-ZenCode intercepts LeetCode's submission request instead of relying only on visible page text.
+### Frontend — Chrome Extension
 
-It obtains the submission ID and retrieves the submitted code through LeetCode's GraphQL submission details endpoint.
+- **React** — Building the user interface and components.
+- **Vite** — Development server and production build tooling.
+- **JavaScript** — Application logic.
+- **Tailwind CSS** — Utility-first styling where used.
+- **Chrome Extension Manifest V3** — Extension architecture.
+- **Chrome Storage API** — Local settings and cached results.
 
-The extension uses the submission status to distinguish accepted and failed submissions.
+### Backend
+
+- **Node.js** — JavaScript runtime.
+- **Express.js** — Backend API framework.
+- **CORS** — Cross-origin request handling.
+- **dotenv** — Environment variable configuration.
+- **Google Gemini API** — AI-powered code complexity analysis.
+- **YouTube Data API** — YouTube video recommendations.
+
+### Deployment
+
+- **Render** — Backend hosting.
 
 ## 🏗️ Project Structure
 
@@ -161,7 +234,8 @@ ZenCode/
 │   │   ├── FloatingButton.jsx
 │   │   ├── Header.jsx
 │   │   ├── ReportView.jsx
-│   │   └── SettingsView.jsx
+│   │   ├── SettingsView.jsx
+│   │   └── VideoSolutions.jsx
 │   ├── utils/
 │   │   ├── celebration.js
 │   │   ├── complexity.js
@@ -184,229 +258,148 @@ ZenCode/
 └── README.md
 ```
 
-## 🛠️ Tech Stack
+*The structure above represents the main project files. Exact filenames may differ if the codebase changes.*
 
-### Extension
+## ⚙️ Installation and Setup
 
-- React
-- Vite
-- JavaScript
-- Tailwind CSS
-- Chrome Extension Manifest V3
-- Chrome Storage API
+### Prerequisites
 
-### Backend
+Before getting started, ensure you have installed:
 
-- Node.js
-- Express.js
-- CORS
-- dotenv
-- Google Gemini API
+- Node.js and npm.
+- Git.
+- Google Chrome or another compatible Chromium-based browser.
+- A Google Gemini API key.
+- A YouTube Data API key for video recommendations.
 
-### Deployment
-
-- Render for the backend
-
-## ⚙️ Local Setup
-
-### 1. Clone the repository
-
-If you rename the GitHub repository to `ZenCode`, use:
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Prajyot-2006/ZenCode.git
 cd ZenCode
 ```
 
-**Note:** Update this URL only after renaming the repository on GitHub. Until then, continue using your existing repository URL.
+### 2. Install Frontend Dependencies
 
-### 2. Install frontend dependencies
+From the project root, run:
 
 ```bash
 npm install
 ```
 
-### 3. Install backend dependencies
+### 3. Install Backend Dependencies
 
 ```bash
 cd server
 npm install
 ```
 
-### 4. Configure Gemini
+### 4. Configure Environment Variables
 
-Create:
+Create a `.env` file inside the `server/` directory.
 
-```text
-server/.env
-```
-
-Add:
+Add the following configuration:
 
 ```env
 GEMINI_API_KEY=YOUR_GEMINI_API_KEY
+YOUTUBE_API_KEY=YOUR_YOUTUBE_API_KEY
 ```
 
-Never commit the API key.
+Replace the placeholder values with your own API keys.
 
-## ▶️ Run the Backend
+**Important:** Never commit API keys or other secrets to GitHub. Keep the `.env` file excluded through `.gitignore`.
 
-From the `server` directory:
+### 5. Start the Backend
+
+From the `server/` directory, run:
 
 ```bash
 npm start
 ```
 
-The backend exposes:
+The backend must be running and accessible to the extension for features that depend on its APIs.
 
-```text
-POST /analyze-complexity
-```
+### 6. Build the Chrome Extension
 
-## 🔨 Build the Extension
-
-From the project root:
+Open a new terminal in the project root and run:
 
 ```bash
 npm run build
 ```
 
-The production extension is generated in:
+Vite generates the production build in the `dist/` directory.
 
-```text
-dist/
-```
+### 7. Load ZenCode into Chrome
 
-## 🌐 Load in Chrome
+1. Open Google Chrome.
+2. Navigate to `chrome://extensions`.
+3. Enable **Developer mode**.
+4. Click **Load unpacked**.
+5. Select the project's `dist/` directory.
+6. Open LeetCode and test the extension.
 
-1. Open `chrome://extensions`.
-2. Enable **Developer mode**.
-3. Click **Load unpacked**.
-4. Select the project's `dist/` folder.
-5. Open LeetCode.
-6. Submit a problem.
+After modifying the extension, rebuild it and reload the extension from the Chrome extensions page.
+
+## 🔌 Backend API Endpoints
+
+ZenCode's backend provides API functionality for AI complexity analysis and YouTube video recommendations.
+
+| Endpoint | Method | Purpose |
+|---|---|---|
+| `/analyze-complexity` | POST | Analyzes submitted code and estimates its time and space complexity. |
+| `/youtube-videos?problem=<problem-slug>` | GET | Retrieves relevant YouTube video recommendations for a LeetCode problem. |
+
+The backend must be configured with the appropriate API keys for the corresponding endpoints to work.
 
 ## 🔐 Security
 
-The Gemini API key is kept on the backend and is not placed inside the extension.
+ZenCode follows these basic security practices:
 
-```text
-ZenCode
-   │
-   │ Submitted code
-   ▼
-Backend
-   │
-   │ Private API key
-   ▼
-Gemini
-```
+- Gemini and YouTube API keys are stored in backend environment variables.
+- API keys should never be embedded directly in frontend JavaScript.
+- The `.env` file should never be committed to the repository.
+- API requests should be validated by the backend.
+- API usage should be monitored to avoid unexpected quota consumption.
 
-The API key should remain in:
+## 🧪 Testing
 
-```text
-server/.env
-```
+The following checks can be performed during development:
 
-It should never be committed to GitHub.
+- Submit a LeetCode solution that is accepted and verify the success celebration.
+- Submit an incorrect solution and verify the failure celebration.
+- Check whether the analytics reflect submission activity.
+- Analyze a solution and verify the displayed complexity results.
+- Reopen an analyzed problem to check whether cached results are reused.
+- Open a LeetCode problem and verify that relevant YouTube video recommendations appear.
+- Check the browser console and backend logs if any feature fails.
 
-## 🔄 Submission Flow
+## ⚠️ Limitations
 
-```text
-User submits solution
-        ↓
-LeetCode /check/ request
-        ↓
-ZenCode intercepts result
-        ↓
-Get submission ID
-        ↓
-Fetch submitted code
-        ↓
-Detect result
-        ↓
-┌───────────────┴───────────────┐
-↓                               ↓
-Celebration                  Complexity
-                                ↓
-                            Check cache
-                                ↓
-                    ┌───────────┴───────────┐
-                    ↓                       ↓
-                 Cached                Not cached
-                    ↓                       ↓
-               Show result          Backend → Gemini
-                                            ↓
-                                       Save result
-```
+- ZenCode is designed primarily for LeetCode.
+- Changes to LeetCode's internal requests or page structure may require updates to submission detection.
+- AI-generated complexity estimates may not always be accurate and should be reviewed against the actual algorithm.
+- Gemini and YouTube API availability depends on the configured credentials, quotas, and service availability.
+- YouTube video recommendations depend on the relevance and availability of search results.
+- Backend-dependent features require a reachable backend with the necessary environment variables configured.
 
-## 📌 AI Analysis Rules
+## 🔮 Future Improvements
 
-The backend asks Gemini to return JSON in this format:
+Potential improvements for ZenCode include:
 
-```json
-{
-  "timeComplexity": "O(N)",
-  "spaceComplexity": "O(N)"
-}
-```
-
-The analyzer reports **total space complexity**, including output data structures.
-
-## 🎨 Themes
-
-### GTA San Andreas
-
-```text
-public/assets/gta/
-```
-
-### Minecraft
-
-```text
-public/assets/minecraft/
-```
-
-Each theme contains passed and failed images and audio.
-
-## 🧪 Development
-
-After making changes:
-
-```bash
-npm run build
-```
-
-Then reload the extension from:
-
-```text
-chrome://extensions
-```
-
-## ⚠️ Notes
-
-- ZenCode is designed for the LeetCode website.
-- LeetCode internal API or page changes may require updates.
-- Gemini availability and rate limits depend on the configured Google AI Studio/Gemini account and model.
-- Never expose the Gemini API key publicly.
-
-## 🎯 Future Improvements
-
-- More celebration themes
-- More detailed analytics
-- Additional AI analysis features
-- Further animation synchronization improvements
-- More customization options
-- Chrome Web Store release
-- Additional coding-platform support
+- Dark/Light Theme Toggle for the extension interface.
+- Additional celebration themes and animations.
+- Improved coding activity analytics and visualizations.
+- More detailed AI-powered code analysis.
+- Better video recommendation relevance.
+- Support for additional coding platforms.
+- Improved error handling and automated testing.
+- Chrome Web Store publication.
 
 ## 👨‍💻 Author
 
-**Prajyot**
+**Pranav J**
 
-ZenCode is a personal project built to make LeetCode practice more interactive while exploring Chrome Extensions, React, backend development, APIs, and AI integration.
-
----
+ZenCode is a project focused on improving the LeetCode experience while exploring React, Chrome Extensions, backend development, API integration, and AI-powered developer tools.
 
 ## ⭐ ZenCode
 
